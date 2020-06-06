@@ -1,8 +1,5 @@
 import React from "react";
+import { UsersSearch } from "../features/users/UsersSearch/UsersSearch";
 import "./App.scss";
 
-function App() {
-  return <div>App</div>;
-}
-
-export default App;
+export const App: React.FC = () => <UsersSearch />;
