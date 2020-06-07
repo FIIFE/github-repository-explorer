@@ -8,9 +8,9 @@ interface ChevronProps {
 export const Chevron: React.FC<ChevronProps> = ({ direction }) => {
   let content;
   if (direction === "up") {
-    content = <FiChevronUp size={20} />;
+    content = <FiChevronUp data-testid="chevron up" size={20} />;
   } else if (direction === "down") {
-    content = <FiChevronDown size={20} />;
+    content = <FiChevronDown data-testid="chevron down" size={20} />;
   }
   return <>{content}</>;
 };
