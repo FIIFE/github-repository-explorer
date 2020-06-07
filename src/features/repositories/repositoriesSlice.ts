@@ -3,7 +3,7 @@ import { getReposByUserName, RepoType } from "../../api/repositories";
 import { AppThunk } from "../../app/store";
 import { UserType } from "../../api/users";
 
-interface ReposStateType {
+export interface ReposStateType {
   userIdsOfLoadingRepos: Array<number>;
   list: Array<RepoType>;
 }
