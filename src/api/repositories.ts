@@ -10,9 +10,7 @@ export interface RepoType {
 
 export const getReposByUserName = async (userName: string) => {
   const url = `https://api.github.com/users/${userName}/repos`;
-  const {
-    data: { items },
-  } = await axios.get(url);
+  const { data: items } = await axios.get(url);
   const repositories: Array<RepoType> = items.map((item: any) => ({
     id: item.id,
     userId: item.owner.id,
