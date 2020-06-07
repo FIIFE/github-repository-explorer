@@ -3,29 +3,28 @@ import { getUsersByName, UserType } from "../../api/users";
 import { AppThunk } from "../../app/store";
 
 interface UsersStateType {
+  lastSearchPhrase: string;
   loading: boolean;
   list: Array<UserType>;
 }
 
 const usersInitialState: UsersStateType = {
+  lastSearchPhrase: "",
   loading: false,
   list: [],
-};
-
-const startLoading = (state: UsersStateType) => {
-  state.loading = true;
-};
-
-const finishLoading = (state: UsersStateType) => {
-  state.loading = false;
 };
 
 const users = createSlice({
   name: "users",
   initialState: usersInitialState,
   reducers: {
-    getUsersStart: startLoading,
-    getUsersFinish: finishLoading,
+    getUsersStart(state, { payload }: PayloadAction<string>) {
+      state.loading = true;
+      state.lastSearchPhrase = payload;
+    },
+    getUsersFinish(state) {
+      state.loading = false;
+    },
     getUsersSuccess(state, { payload }: PayloadAction<Array<UserType>>) {
       state.list = payload;
     },
@@ -37,7 +36,7 @@ export default users.reducer;
 
 export const fetchUsers = (name: string): AppThunk => async (dispatch) => {
   try {
-    dispatch(getUsersStart());
+    dispatch(getUsersStart(name));
     const users = await getUsersByName(name);
     console.log(users);
     dispatch(getUsersSuccess(users));
