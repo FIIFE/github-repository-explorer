@@ -4,14 +4,15 @@ import { RootStateType } from "../../../app/rootReducer";
 import { UserListItem } from "../UserListItem/UserListItem";
 import { FetchResultTitle } from "../../../components/FetchResultTitle/FetchResultTitle";
 import { LoadingTitle } from "../../../components/LoadingTitle/LoadingTitle";
+import styles from "./UsersList.module.scss";
 
 export const UsersList: React.FC = () => {
-  const [toggledUserId, setToggledUserId] = useState<number | null>(null);
   const { lastSearchPhrase, list, loading } = useSelector(
     (state: RootStateType) => state.users
   );
+
   let resultTitle;
-  if (lastSearchPhrase && !toggledUserId) {
+  if (lastSearchPhrase) {
     resultTitle = (
       <FetchResultTitle
         fetchQuery={lastSearchPhrase}
@@ -19,16 +20,19 @@ export const UsersList: React.FC = () => {
       />
     );
   }
+
   const usersList = list.map((user) => {
     return <UserListItem key={user.id} user={user} />;
   });
+
   if (loading) {
     return <LoadingTitle />;
   }
+
   return (
     <>
       {resultTitle}
-      {usersList}
+      <div className={styles.usersList}>{usersList}</div>
     </>
   );
 };
