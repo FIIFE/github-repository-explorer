@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export interface RepositoryType {
+export interface RepoType {
   id: number;
   userId: number;
   title: string;
@@ -13,7 +13,7 @@ export const getReposByUserName = async (userName: string) => {
   const {
     data: { items },
   } = await axios.get(url);
-  const repositories: Array<RepositoryType> = items.map((item: any) => ({
+  const repositories: Array<RepoType> = items.map((item: any) => ({
     id: item.id,
     userId: item.owner.id,
     title: item.name,
