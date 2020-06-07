@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getUsersByName, UserType } from "../../api/users";
 import { AppThunk } from "../../app/store";
 
-interface UsersStateType {
+export interface UsersStateType {
   lastSearchPhrase: string;
   loading: boolean;
   list: Array<UserType>;
@@ -38,7 +38,6 @@ export const fetchUsers = (name: string): AppThunk => async (dispatch) => {
   try {
     dispatch(getUsersStart(name));
     const users = await getUsersByName(name);
-    console.log(users);
     dispatch(getUsersSuccess(users));
   } catch (error) {
     console.error(error);
