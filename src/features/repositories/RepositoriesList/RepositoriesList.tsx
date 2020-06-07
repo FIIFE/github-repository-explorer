@@ -4,6 +4,7 @@ import { RootStateType } from "../../../app/rootReducer";
 import { fetchRepos } from "../repositoriesSlice";
 import { LoadingTitle } from "../../../components/LoadingTitle/LoadingTitle";
 import { RepoListItem } from "../RepoListItem/RepoListItem";
+import styles from "./RepositoriesList.module.scss";
 
 interface RepositoriesListPropsType {
   userName: string;
@@ -27,7 +28,13 @@ export const RepositoriesList: React.FC<RepositoriesListPropsType> = ({
 
   let content;
   if (list.length > 0) {
-    content = list.map((repo) => <RepoListItem key={repo.id} repo={repo} />);
+    content = (
+      <div className={styles.repoList}>
+        {list.map((repo) => (
+          <RepoListItem key={repo.id} repo={repo} />
+        ))}
+      </div>
+    );
   } else {
     content = <div>No public repositories</div>;
   }

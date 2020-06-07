@@ -16,12 +16,12 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
     reposList = <RepositoriesList userName={user.name} />;
   }
   return (
-    <>
-      <div className={styles.userItem} onClick={() => setIsToggled(!isToggled)}>
+    <div className={styles.userItem} onClick={() => setIsToggled(!isToggled)}>
+      <div className={styles.userItemHeader}>
         <div>{user.name}</div>
         <Chevron direction={chevronDirection} />
       </div>
       {reposList}
-    </>
+    </div>
   );
 };
