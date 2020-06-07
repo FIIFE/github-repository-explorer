@@ -16,6 +16,8 @@
 .title {
   font-weight: bold;
   font-size: 17px;
+  word-break: break-all;
+  margin-right: 10px;
 }
 
 .starsContainer {
@@ -29,4 +31,5 @@
 
 .description {
   margin-top: 5px;
+  word-break: break-all;
 }
