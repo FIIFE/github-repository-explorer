@@ -13,7 +13,7 @@ export const UserListItem: React.FC<UserListItemProps> = ({ user }) => {
   const chevronDirection = isToggled ? "up" : "down";
   let reposList;
   if (isToggled) {
-    reposList = <RepositoriesList userName={user.name} />;
+    reposList = <RepositoriesList user={user} />;
   }
   return (
     <div className={styles.userItem} onClick={() => setIsToggled(!isToggled)}>

@@ -1,14 +1,15 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { getReposByUserName, RepoType } from "../../api/repositories";
 import { AppThunk } from "../../app/store";
+import { UserType } from "../../api/users";
 
 interface ReposStateType {
-  loading: boolean;
+  userIdsOfLoadingRepos: Array<number>;
   list: Array<RepoType>;
 }
 
 const reposInitialState: ReposStateType = {
-  loading: false,
+  userIdsOfLoadingRepos: [],
   list: [],
 };
 
@@ -16,30 +17,39 @@ const repos = createSlice({
   name: "repositories",
   initialState: reposInitialState,
   reducers: {
-    getReposStart(state) {
-      state.loading = true;
+    getReposStart(state, { payload: userId }) {
+      state.userIdsOfLoadingRepos.push(userId);
     },
-    getReposFinish(state) {
-      state.loading = false;
+    getReposFinish(state, { payload: userId }) {
+      state.userIdsOfLoadingRepos = state.userIdsOfLoadingRepos.filter(
+        (id) => id !== userId
+      );
     },
-    getReposSuccess(state, { payload }: PayloadAction<Array<RepoType>>) {
-      state.list = payload;
+    getReposSuccess(state, { payload: repos }: PayloadAction<Array<RepoType>>) {
+      state.list = [...state.list, ...repos];
+    },
+    removeUserRepos(state, { payload: userId }: PayloadAction<number>) {
+      state.list = state.list.filter((repo) => repo.userId !== userId);
     },
   },
 });
 
-export const { getReposStart, getReposFinish, getReposSuccess } = repos.actions;
+export const {
+  getReposStart,
+  getReposFinish,
+  getReposSuccess,
+  removeUserRepos,
+} = repos.actions;
 export default repos.reducer;
 
-export const fetchRepos = (userName: string): AppThunk => async (dispatch) => {
+export const fetchRepos = (user: UserType): AppThunk => async (dispatch) => {
   try {
-    dispatch(getReposStart());
-    const repos = await getReposByUserName(userName);
-    console.log(repos);
+    dispatch(getReposStart(user.id));
+    const repos = await getReposByUserName(user.name);
     dispatch(getReposSuccess(repos));
   } catch (error) {
     console.error(error);
   } finally {
-    dispatch(getReposFinish());
+    dispatch(getReposFinish(user.id));
   }
 };
